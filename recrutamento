@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recrutamento Táime Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        .step { display: none; }
+        .step.active { display: block; animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .progress-bar { transition: width 0.4s ease; }
+        input[type="radio"]:checked + span { border-color: #4f46e5; background-color: #f5f3ff; color: #4f46e5; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c7d2fe; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col items-center p-2 md:p-8">
+
+    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden mb-8">
+        <!-- Header -->
+        <div class="bg-indigo-700 p-6 text-white text-center md:text-left">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex flex-col items-center md:items-start gap-4">
+                    <!-- Logo Táime Pro -->
+                    <img src="https://cdn.wts.chat/static/partners/app.taime.pro/logo-text-on-dark.svg" alt="Táime Pro Logo" class="h-10 md:h-12 w-auto mb-2" onerror="this.style.display='none'">
+                    <div>
+                        <h1 class="text-xl font-bold">Portal de Recrutamento</h1>
+                        <p class="text-indigo-100 text-xs mt-1 uppercase tracking-wider">Ominichannel & Inteligência Artificial</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <span id="stepCounter" class="text-xs font-bold uppercase tracking-widest bg-indigo-800 px-4 py-2 rounded-full border border-indigo-600">Passo 1 de 8</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Progress Bar -->
+        <div class="w-full bg-indigo-100 h-1.5 overflow-hidden">
+            <div id="progressBar" class="progress-bar bg-indigo-500 h-full w-0"></div>
+        </div>
+
+        <form id="recruitmentForm" class="p-4 md:p-10">
+            <!-- Step 1: Boas-vindas -->
+            <div class="step active" data-step="1">
+                <div class="max-w-2xl mx-auto text-center">
+                    <h2 class="text-3xl font-extrabold text-slate-800 mb-6">Olá, seja muito bem-vindo(a)!</h2>
+                    <div class="prose text-slate-600 space-y-4 mb-8">
+                        <p>Este formulário é o primeiro passo para conhecermos melhor você, suas experiências, seus sonhos e seu perfil técnico.</p>
+                        <p>A <strong>Táime Pro</strong> é uma plataforma de atendimento conversacional omnichannel com CRM inteligente integrado a chatbots e agentes de IA.</p>
+                        <p>Nossa missão é transformar a maneira como PMEs se relacionam com seus clientes, unindo automação e inteligência artificial.</p>
+                        <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 mt-8 rounded-r-xl text-left">
+                            <p class="text-sm text-indigo-800 font-medium">🌟 Reserve de 15 a 20 minutos para responder com calma. Boa sorte!</p>
+                        </div>
+                    </div>
+                    <button type="button" onclick="nextStep()" class="w-full md:w-auto px-12 py-4 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition transform hover:scale-105 shadow-lg">Iniciar Candidatura</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Informações Pessoais -->
+            <div class="step" data-step="2">
+                <h2 class="text-xl font-bold text-slate-800 mb-6 border-b pb-4 flex items-center gap-3">
+                    <span class="bg-indigo-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+                    Informações Pessoais
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Qual o seu nome completo? *</label>
+                        <input type="text" name="nome" required class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Qual o seu e-mail? *</label>
+                        <input type="email" name="email" required class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Qual o seu WhatsApp com DDD? *</label>
+                        <input type="text" name="whatsapp" required placeholder="(00) 00000-0000" class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Qual o seu endereço completo?</label>
+                        <input type="text" name="endereco" class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Data de Nascimento *</label>
+                        <input type="date" name="nascimento" required class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Estado Civil</label>
+                        <select name="estado_civil" class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition">
+                            <option value="">Selecione...</option>
+                            <option value="solteiro">Solteiro(a)</option>
+                            <option value="casado">Casado(a)</option>
+                            <option value="uniao_estavel">União Estável</option>
+                            <option value="divorciado">Divorciado(a)</option>
+                            <option value="viuvo">Viúvo(a)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mt-10 flex flex-col md:flex-row gap-4">
+                    <button type="button" onclick="prevStep()" class="flex-1 py-4 border-2 border-slate-200 rounded-xl font-bold text-slate-500 hover:bg-slate-50 transition">Voltar</button>
+                    <button type="button" onclick="nextStep()" class="flex-[2] py-4 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition shadow-md">Próximo Passo</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Perfil Pessoal -->
+            <div class="step" data-step="3">
+                <h2 class="text-xl font-bold text-slate-800 mb-6 border-b pb-4 flex items-center gap-3">
+                    <span class="bg-indigo-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+                    Perfil Pessoal
+                </h2>
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Descreva quem é você, sua história de vida e por que você está aqui agora *</label>
+                        <textarea name="historia" required class="w-full p-3 border border-slate-200 rounded-xl h-32 focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Quais são suas metas para o seu futuro?</label>
+                            <textarea name="metas" class="w-full p-3 border border-slate-200 rounded-xl h-24 focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Qual a sua missão de vida?</label>
+                            <textarea name="missao" class="w-full p-3 border border-slate-200 rounded-xl h-24 focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Seus Hobbies</label>
+                            <input type="text" name="hobbies" class="w-full p-3 border border-slate-200 rounded-xl">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Filmes preferidos</label>
+                            <input type="text" name="filmes" placeholder="Cite 3 a 5" class="w-full p-3 border border-slate-200 rounded-xl">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Séries preferidas</label>
+                            <input type="text" name="series" placeholder="Cite 3 a 5" class="w-full p-3 border border-slate-200 rounded-xl">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Principais habilidades e fraquezas (separadas por vírgula) *</label>
+                        <textarea name="habilidades_fraquezas" required placeholder="Ex: Habilidade 1, Fraqueza 1..." class="w-full p-3 border border-slate-200 rounded-xl h-24 focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                    </div>
+                </div>
+                <div class="mt-10 flex flex-col md:flex-row gap-4">
+                    <button type="button" onclick="prevStep()" class="flex-1 py-4 border-2 border-slate-200 rounded-xl font-bold text-slate-500 hover:bg-slate-50 transition">Voltar</button>
+                    <button type="button" onclick="nextStep()" class="flex-[2] py-4 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition shadow-md">Próximo Passo</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Conhecimentos Técnicos -->
+            <div class="step" data-step="4">
+                <h2 class="text-xl font-bold text-slate-800 mb-6 border-b pb-4 flex items-center gap-3">
+                    <span class="bg-indigo-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+                    Conhecimentos Técnicos
+                </h2>
+                <div class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Já utilizou algum CRM? Qual(is)? Experiência? *</label>
+                            <textarea name="exp_crm" required class="w-full p-3 border border-slate-200 rounded-xl h-24 focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">O que entende por automação? Já aplicou? *</label>
+                            <textarea name="exp_automacao" required class="w-full p-3 border border-slate-200 rounded-xl h-24 focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Conhece n8n ou Make? Descreva fluxos.</label>
+                            <textarea name="n8n_make" class="w-full p-3 border border-slate-200 rounded-xl h-24 focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Explicação Webhook vs API para leigo *</label>
+                            <textarea name="webhook_api_leigo" required class="w-full p-3 border border-slate-200 rounded-xl h-24 focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                        <h3 class="font-bold text-indigo-700 mb-4 uppercase tracking-wider text-xs">Nível de Conhecimento (0 a 5):</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-3">
+                                <div class="flex justify-between text-xs font-bold text-slate-600"><span>CRM DE CARDS</span><span id="lvl1">0</span></div>
+                                <input type="range" name="nivel_kanban" min="0" max="5" value="0" step="1" oninput="document.getElementById('lvl1').innerText=this.value" class="w-full accent-indigo-600">
+                            </div>
+                            <div class="space-y-3">
+                                <div class="flex justify-between text-xs font-bold text-slate-600"><span>AUTOMAÇÃO N8N/MAKE</span><span id="lvl2">0</span></div>
+                                <input type="range" name="nivel_automacao" min="0" max="5" value="0" step="1" oninput="document.getElementById('lvl2').innerText=this.value" class="w-full accent-indigo-600">
+                            </div>
+                            <div class="space-y-3">
+                                <div class="flex justify-between text-xs font-bold text-slate-600"><span>INTEGRAÇÃO VIA API</span><span id="lvl3">0</span></div>
+                                <input type="range" name="nivel_api" min="0" max="5" value="0" step="1" oninput="document.getElementById('lvl3').innerText=this.value" class="w-full accent-indigo-600">
+                            </div>
+                            <div class="space-y-3">
+                                <div class="flex justify-between text-xs font-bold text-slate-600"><span>WPP BUSINESS / API OFICIAL</span><span id="lvl4">0</span></div>
+                                <input type="range" name="nivel_whatsapp" min="0" max="5" value="0" step="1" oninput="document.getElementById('lvl4').innerText=this.value" class="w-full accent-indigo-600">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-10 flex flex-col md:flex-row gap-4">
+                    <button type="button" onclick="prevStep()" class="flex-1 py-4 border-2 border-slate-200 rounded-xl font-bold text-slate-500 hover:bg-slate-50 transition">Voltar</button>
+                    <button type="button" onclick="nextStep()" class="flex-[2] py-4 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition shadow-md">Próximo Passo</button>
+                </div>
+            </div>
+
+            <!-- Step 5: Relacionamento -->
+            <div class="step" data-step="5">
+                <h2 class="text-xl font-bold text-slate-800 mb-6 border-b pb-4 flex items-center gap-3">
+                    <span class="bg-indigo-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
+                    Relacionamento com Cliente
+                </h2>
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">O que significa um excelente atendimento para você? *</label>
+                        <textarea name="atendimento_excelente" required class="w-full p-3 border border-slate-200 rounded-xl h-28 focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Conte sobre uma situação desafiadora que você resolveu com um cliente *</label>
+                        <textarea name="situacao_desafio" required class="w-full p-3 border border-slate-200 rounded-xl h-28 focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Como lida com insatisfação ou métricas (NPS/CSAT)?</label>
+                        <textarea name="lidar_insatisfacao" class="w-full p-3 border border-slate-200 rounded-xl h-28 focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                    </div>
+                </div>
+                <div class="mt-10 flex flex-col md:flex-row gap-4">
+                    <button type="button" onclick="prevStep()" class="flex-1 py-4 border-2 border-slate-300 rounded-xl font-bold text-slate-500 hover:bg-slate-50">Voltar</button>
+                    <button type="button" onclick="nextStep()" class="flex-[2] py-4 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition shadow-md">Ir para Teste DISC</button>
+                </div>
+            </div>
+
+            <!-- Step 6: DISC Parte 1 (Escolha de Palavras) -->
+            <div class="step" data-step="6">
+                <h2 class="text-xl font-bold text-slate-800 mb-2 border-b pb-4 flex items-center gap-3">
+                    <span class="bg-indigo-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">5</span>
+                    Teste DISC: Escolha de Palavras
+                </h2>
+                <p class="text-sm text-slate-500 mb-8 italic">Escolha a palavra que melhor lhe define em cada conjunto. Seja sincero e espontâneo.</p>
+                
+                <div id="discWordsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6 h-[500px] overflow-y-auto pr-4 custom-scrollbar">
+                    <!-- Gerado via JS -->
+                </div>
+
+                <div class="mt-10 flex flex-col md:flex-row gap-4">
+                    <button type="button" onclick="prevStep()" class="flex-1 py-4 border-2 border-slate-200 rounded-xl font-bold text-slate-500 hover:bg-slate-50">Voltar</button>
+                    <button type="button" onclick="validateStep6()" class="flex-[2] py-4 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition shadow-md">Próximo: Situações</button>
+                </div>
+            </div>
+
+            <!-- Step 7: DISC Parte 2 (Situações) -->
+            <div class="step" data-step="7">
+                <h2 class="text-xl font-bold text-slate-800 mb-2 border-b pb-4 flex items-center gap-3">
+                    <span class="bg-indigo-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">6</span>
+                    Teste DISC: Situações
+                </h2>
+                <p class="text-sm text-slate-500 mb-8 italic">Como você reagiria ou agiria nestas situações reais?</p>
+                
+                <div id="discSituationsContainer" class="space-y-8 h-[500px] overflow-y-auto pr-4 custom-scrollbar">
+                    <!-- Gerado via JS -->
+                </div>
+
+                <div class="mt-10 flex flex-col md:flex-row gap-4">
+                    <button type="button" onclick="prevStep()" class="flex-1 py-4 border-2 border-slate-200 rounded-xl font-bold text-slate-500 hover:bg-slate-50">Voltar</button>
+                    <button type="button" onclick="validateStep7()" class="flex-[2] py-4 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition shadow-md">Finalizar</button>
+                </div>
+            </div>
+
+            <!-- Step 8: Considerações Finais -->
+            <div class="step" data-step="8">
+                <h2 class="text-xl font-bold text-slate-800 mb-6 border-b pb-4 flex items-center gap-3">
+                    <span class="bg-indigo-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">7</span>
+                    Considerações Finais
+                </h2>
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Por que você quer fazer parte da Táime Pro? *</label>
+                        <textarea name="porque_taime" required class="w-full p-3 border border-slate-200 rounded-xl h-32 focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Por que deveríamos te contratar para essa vaga? *</label>
+                        <textarea name="porque_contratar" required class="w-full p-3 border border-slate-200 rounded-xl h-32 focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                    </div>
+                    <div id="loadingMsg" class="hidden animate-pulse text-indigo-700 font-bold text-center py-4 bg-indigo-50 rounded-xl">
+                        Enviando candidatura e processando resultados...
+                    </div>
+                </div>
+                <div class="mt-10 flex flex-col md:flex-row gap-4">
+                    <button type="button" onclick="prevStep()" class="flex-1 py-4 border-2 border-slate-200 rounded-xl font-bold text-slate-500 hover:bg-slate-50 transition">Voltar</button>
+                    <button type="button" onclick="submitForm()" id="submitBtn" class="flex-[2] py-4 bg-green-600 text-white font-bold rounded-xl hover:bg-green-700 transition shadow-xl transform hover:scale-105">Enviar Candidatura Agora 🚀</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Final Success Screen -->
+        <div id="successScreen" class="hidden p-8 md:p-16 text-center animate-fadeIn">
+            <div class="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-8 text-4xl shadow-sm border-4 border-green-200">✓</div>
+            <h2 class="text-4xl font-extrabold text-slate-800 mb-4">Candidatura Enviada!</h2>
+            <p class="text-slate-600 mb-10 max-w-lg mx-auto leading-relaxed">Obrigado por seu tempo e interesse. Seu perfil foi registrado e um relatório detalhado já está em análise pela equipe da Táime Pro.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-xl">
+                    <h3 class="font-bold text-indigo-700 mb-6 uppercase tracking-widest text-sm flex items-center justify-center gap-2">
+                        Seu Perfil Comportamental
+                    </h3>
+                    <div id="discBars" class="space-y-6 text-left">
+                        <!-- Gerado via JS -->
+                    </div>
+                </div>
+
+                <div id="fichaTecnica" class="bg-indigo-50 p-6 rounded-3xl border border-indigo-100 text-left text-sm space-y-4 custom-scrollbar max-h-[450px] overflow-y-auto shadow-inner">
+                    <h4 class="font-bold text-indigo-900 mb-2 uppercase tracking-widest text-xs">Ficha Técnica do seu Perfil</h4>
+                    <div id="perfilDesc" class="prose prose-sm text-indigo-800">
+                        <!-- Descrição dinâmica -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const steps = document.querySelectorAll('.step');
+        let currentStep = 1;
+
+        // Base de Dados DISC (Mapeamento baseado nas fichas fornecidas)
+        const discWords = [
+            { id: 1, options: [{t: "Competitivo(a)", v: "D"}, {t: "Convincente", v: "I"}, {t: "Atencioso(a)", v: "S"}, {t: "Controlado(a)", v: "C"}] },
+            { id: 2, options: [{t: "Agressivo(a)", v: "D"}, {t: "Metido(a)", v: "I"}, {t: "Triste", v: "S"}, {t: "Inflexível", v: "C"}] },
+            { id: 3, options: [{t: "Autoconfiante", v: "D"}, {t: "Animado(a)", v: "I"}, {t: "Mediador(a)", v: "S"}, {t: "Detalhista", v: "C"}] },
+            { id: 4, options: [{t: "Dominador(a)", v: "D"}, {t: "Egoísta(a)", v: "I"}, {t: "Retraído(a)", v: "S"}, {t: "Teimoso(a)", v: "C"}] },
+            { id: 5, options: [{t: "Independente", v: "D"}, {t: "Idealista", v: "I"}, {t: "Servidor(a)", v: "S"}, {t: "Amigável", v: "S"}] },
+            { id: 6, options: [{t: "Audacioso(a)", v: "D"}, {t: "Descontraído(a)", v: "I"}, {t: "Diplomático(a)", v: "S"}, {t: "Minucioso(a)", v: "C"}] },
+            { id: 7, options: [{t: "Energético(a)", v: "D"}, {t: "Sociável", v: "I"}, {t: "Tranquilo(a)", v: "S"}, {t: "Metódico(a)", v: "C"}] },
+            { id: 8, options: [{t: "Ressentido(a)", v: "C"}, {t: "Relutante", v: "S"}, {t: "Repetitível", v: "S"}, {t: "Inflexível", v: "C"}] },
+            { id: 9, options: [{t: "Autossuficiente(a)", v: "D"}, {t: "Espirituoso(a)", v: "I"}, {t: "Satisfeito(a)", v: "S"}, {t: "Exato(a)", v: "C"}] },
+            { id: 10, options: [{t: "Seguro(a)", v: "D"}, {t: "Espontâneo(a)", v: "I"}, {t: "Tímido(a)", v: "S"}, {t: "Organizado(a)", v: "C"}] },
+            { id: 11, options: [{t: "Destemido(a)", v: "D"}, {t: "Comunicativo(a)", v: "I"}, {t: "Acolhedor(a)", v: "S"}, {t: "Preciso(a)", v: "C"}] },
+            { id: 12, options: [{t: "Franco(a)", v: "D"}, {t: "Otimista", v: "I"}, {t: "Calmo(a)", v: "S"}, {t: "Ordeiro(a)", v: "C"}] },
+            { id: 13, options: [{t: "Discutidor(a)", v: "D"}, {t: "Desorganizado(a)", v: "I"}, {t: "Incerto(a)", v: "S"}, {t: "Preocupado(a)", v: "C"}] },
+            { id: 14, options: [{t: "Indelicado(a)", v: "D"}, {t: "Tagarela", v: "I"}, {t: "Tímido(a)", v: "S"}, {t: "Inflexível", v: "C"}] },
+            { id: 15, options: [{t: "Positivo(a)", v: "I"}, {t: "Generoso(a)", v: "S"}, {t: "Paciente", v: "S"}, {t: "Planejador(a)", v: "C"}] },
+            { id: 16, options: [{t: "Impaciente", v: "D"}, {t: "Inoportuno(a)", v: "I"}, {t: "Indeciso(a)", v: "S"}, {t: "Inseguro(a)", v: "S"}] },
+            { id: 17, options: [{t: "Mandão - Mandona", v: "D"}, {t: "Confuso(a)", v: "I"}, {t: "Desorganizado(a)", v: "I"}, {t: "Chateado(a)", v: "S"}] },
+            { id: 18, options: [{t: "Habilidoso(a)", v: "D"}, {t: "Carismático(a)", v: "I"}, {t: "Respeitoso(a)", v: "S"}, {t: "Reservado(a)", v: "C"}] },
+            { id: 19, options: [{t: "Energético(a)", v: "D"}, {t: "Sociável", v: "I"}, {t: "Antencioso(a)", v: "S"}, {t: "Controlado(a)", v: "C"}] },
+            { id: 20, options: [{t: "Competitivo(a)", v: "D"}, {t: "Convincente", v: "I"}, {t: "Doador(a)", v: "S"}, {t: "Submisso(a)", v: "S"}] },
+            { id: 21, options: [{t: "Decidido(a)", v: "D"}, {t: "Demonstrativo(a)", v: "I"}, {t: "Irônico(a)", v: "D"}, {t: "Profundo(a)", v: "C"}] },
+            { id: 22, options: [{t: "Ativo(a)", v: "D"}, {t: "Desembaraçado(a)", v: "I"}, {t: "Mediador(a)", v: "S"}, {t: "Pensativo(a)", v: "C"}] },
+            { id: 23, options: [{t: "Chefe", v: "D"}, {t: "Atraente", v: "I"}, {t: "Contente", v: "I"}, {t: "Detalhista", v: "C"}] },
+            { id: 24, options: [{t: "Direto(a)", v: "D"}, {t: "Entusiasta", v: "I"}, {t: "Paciente", v: "S"}, {t: "Exato(a)", v: "C"}] }
+        ];
+
+        const discSituations = [
+            { q: "Em uma situação de conflito dentro da sua equipe, eu tendo a:", options: [{t: "Apartar e resolver a situação", v: "D"}, {t: "Saio de perto, procuro evitar tal situação", v: "S"}, {t: "Fico apenas observando", v: "C"}, {t: "Me retraio, pois tenho medo de me envolver", v: "S"}] },
+            { q: "Garçom demora 20 minutos e você tem pressa:", options: [{t: "Me aborreço e digo que se demorar irei embora", v: "D"}, {t: "Não me dou conta pois estou envolvido(a) na conversa", v: "I"}, {t: "Não me fixo ao tempo, não falo nada", v: "S"}, {t: "Informo exatamente a hora que cheguei e o tempo passado", v: "C"}] },
+            { q: "Prato errado trazido pelo garçom:", options: [{t: "Digo de maneira direta que este não foi o prato", v: "D"}, {t: "Chamo o garçom e converso explicando o erro", v: "I"}, {t: "Fico calado(a) e aceito o prato", v: "S"}, {t: "Me incomodo e pergunto aborrecido se ele prestou atenção", v: "D"}] },
+            { q: "Em uma reunião de amigos:", options: [{t: "Tento convencer aos demais das minhas opiniões", v: "D"}, {t: "Falo muito e conto bastantes piadas", v: "I"}, {t: "Escuto as pessoas, sou excelente ouvinte", v: "S"}, {t: "Observo e analiso as pessoas, dou opinião técnica", v: "C"}] },
+            { q: "Companheiros de trabalho te descrevem como:", options: [{t: "Enérgico(a), Forte, Agressivo(a)", v: "D"}, {t: "Social, Alegre, Gosta de Conversar", v: "I"}, {t: "Tranquilo(a), Paciente, Amável", v: "S"}, {t: "Concreto(a), Disciplinado(a), Metódico(a)", v: "C"}] },
+            { q: "Em uma discussão:", options: [{t: "Busco ter a razão e não paro até conseguir", v: "D"}, {t: "Trato de dizer que não é para tanto", v: "I"}, {t: "Odeio agressões, concordo para não argumentar", v: "S"}, {t: "Me baseio nos fatos fundamentados", v: "C"}] },
+            { q: "O que realmente me emociona na vida:", options: [{t: "Os desafios, As novidades, Arriscar", v: "D"}, {t: "As surpresas, A diversão, O jogo", v: "I"}, {t: "A doçura, O carinho, Aceitação", v: "S"}, {t: "Aprender, Sabedoria, Conhecimento", v: "C"}] },
+            { q: "Se alguém me agride:", options: [{t: "Devolvo a agressão de imediato", v: "D"}, {t: "Escapo ou pergunto se ela é louca", v: "I"}, {t: "Fico calado(a) e não demonstro", v: "S"}, {t: "Me angustio e tento descobrir o motivo lógico", v: "C"}] },
+            { q: "Quando vou às compras:", options: [{t: "Sei o que quero e sou muito definido(a)", v: "D"}, {t: "Me divirto, sou um comprador(a) compulsivo(a)", v: "I"}, {t: "Busco ofertas e descontos", v: "S"}, {t: "Sou indeciso(a), dá trabalho escolher", v: "S"}] },
+            { q: "Frase que melhor descreve:", options: [{t: "Ativo(a) e enérgico(a), não me canso", v: "D"}, {t: "Alegre e jovial, levo alegria", v: "I"}, {t: "Tranquilo(a) e passivo(a), fácil convivência", v: "S"}, {t: "Analítico(a) e observador, resolvo problemas", v: "C"}] },
+            { q: "Trabalhando em equipe sou:", options: [{t: "O que manda e organiza", v: "D"}, {t: "O que anima o ambiente", v: "I"}, {t: "O que apoia a união do grupo", v: "S"}, {t: "O que organiza a parte estratégica", v: "C"}] },
+            { q: "Piores defeitos:", options: [{t: "Agressivo(a) e temperamental(a)", v: "D"}, {t: "Distraído e desorganizado(a)", v: "I"}, {t: "Submisso(a) e lento(a)", v: "S"}, {t: "Teimoso(a) e quadrado(a)", v: "C"}] },
+            { q: "Qualidades principais:", options: [{t: "Determinado(a) e seguro(a)", v: "D"}, {t: "Otimista e alegre", v: "I"}, {t: "Adaptado(a) e pacífico(a)", v: "S"}, {t: "Cumpridor e estável", v: "C"}] },
+            { q: "Esbarrou com desconhecido:", options: [{t: "Espero que ele saia do meu caminho", v: "D"}, {t: "Dou um sorriso e sigo em frente", v: "I"}, {t: "Peço desculpas e sigo em frente", v: "S"}, {t: "Dou um passo ao lado em silêncio", v: "C"}] },
+            { q: "No trabalho sobressai em:", options: [{t: "Tomada de decisões rápida", v: "D"}, {t: "Relações públicas", v: "I"}, {t: "Adaptação a equipes", v: "S"}, {t: "Qualidade e pontualidade", v: "C"}] },
+            { q: "Defeitos no trabalho:", options: [{t: "Não gosto de delegar / Não gosto que digam o que fazer", v: "D"}, {t: "Desordenado(a) e esquecido(a)", v: "I"}, {t: "Trabalho mais sob baixa pressão", v: "S"}, {t: "Perfeccionismo travado", v: "C"}] }
+        ];
+
+        const fichasTecnicas = {
+            D: { 
+                titulo: "Dominante (D)", 
+                resumo: "Direto, Impositivo, Focado em Resultados.",
+                detalhes: "O que te move é o poder, o controle e resultados. Você é perseverante e adora desafios. Como melhorar: Concentre-se nas pessoas, escute mais e seja humilde."
+            },
+            I: { 
+                titulo: "Influente (I)", 
+                resumo: "Entusiasmado, Comunicativo, Popular.",
+                detalhes: "O que te move é a diversão e a aceitação social. Você é otimista e efusivo. Como melhorar: Fale menos, escute mais e seja mais organizado."
+            },
+            S: { 
+                titulo: "Estável (S)", 
+                resumo: "Paciente, Amigável, Evita Conflitos.",
+                detalhes: "O que te move é a aprovação, servir aos demais e a paz. Você é um excelente ouvinte. Como melhorar: Seja mais assertivo, aprenda a dizer não e expresse suas emoções."
+            },
+            C: { 
+                titulo: "Condescendente / Analítico (C)", 
+                resumo: "Detalhista, Organizado, Estrategista.",
+                detalhes: "O que te move é a ordem, a informação correta e o reconhecimento técnico. Você é leal e comprometido. Como melhorar: Seja menos literal, aceite falhas e fale as coisas na hora."
+            }
+        };
+
+        // Renderização do formulário
+        function renderForm() {
+            const wordContainer = document.getElementById('discWordsContainer');
+            discWords.forEach((q, idx) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = "bg-white p-4 rounded-xl border border-slate-100 shadow-sm";
+                qDiv.innerHTML = `
+                    <p class="text-sm font-bold text-slate-700 mb-3">${idx+1}. Qual melhor lhe define?</p>
+                    <div class="grid grid-cols-1 gap-2">
+                        ${q.options.map((opt, oidx) => `
+                            <label class="relative cursor-pointer group">
+                                <input type="radio" name="word_${idx}" value="${opt.v}" class="sr-only" required>
+                                <span class="block px-3 py-2 text-xs border border-slate-200 rounded-lg group-hover:bg-indigo-50 transition">${opt.t}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                `;
+                wordContainer.appendChild(qDiv);
+            });
+
+            const sitContainer = document.getElementById('discSituationsContainer');
+            discSituations.forEach((q, idx) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = "bg-white p-6 rounded-2xl border border-slate-200 shadow-sm";
+                qDiv.innerHTML = `
+                    <p class="font-bold text-slate-800 mb-4">${idx+1}. ${q.q}</p>
+                    <div class="space-y-2">
+                        ${q.options.map((opt, oidx) => `
+                            <label class="flex items-center p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition group">
+                                <input type="radio" name="sit_${idx}" value="${opt.v}" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500" required>
+                                <span class="ml-3 text-sm text-slate-700">${opt.t}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                `;
+                sitContainer.appendChild(qDiv);
+            });
+        }
+
+        function updateStep() {
+            const stepsCount = steps.length;
+            document.getElementById('stepCounter').innerText = `Passo ${currentStep} de ${stepsCount}`;
+            document.getElementById('progressBar').style.width = `${(currentStep / stepsCount) * 100}%`;
+            steps.forEach(s => s.classList.remove('active'));
+            document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function nextStep() {
+            const currentInputs = steps[currentStep-1].querySelectorAll('input[required], textarea[required], select[required]');
+            let allFilled = true;
+            currentInputs.forEach(i => {
+                if(!i.value) { i.classList.add('border-red-500'); allFilled = false; }
+                else { i.classList.remove('border-red-500'); }
+            });
+
+            if(allFilled && currentStep < steps.length) {
+                currentStep++;
+                updateStep();
+            } else if(!allFilled) {
+                alert("Por favor, preencha todos os campos obrigatórios.");
+            }
+        }
+
+        function prevStep() {
+            if(currentStep > 1) {
+                currentStep--;
+                updateStep();
+            }
+        }
+
+        function validateStep6() {
+            const checked = document.querySelectorAll('#discWordsContainer input[type="radio"]:checked').length;
+            if(checked < discWords.length) {
+                alert(`Responda todas as ${discWords.length} escolhas de palavras.`);
+            } else {
+                currentStep++;
+                updateStep();
+            }
+        }
+
+        function validateStep7() {
+            const checked = document.querySelectorAll('#discSituationsContainer input[type="radio"]:checked').length;
+            if(checked < discSituations.length) {
+                alert(`Responda todas as ${discSituations.length} situações.`);
+            } else {
+                currentStep++;
+                updateStep();
+            }
+        }
+
+        function calculateDISC() {
+            const scores = { D: 0, I: 0, S: 0, C: 0 };
+            document.querySelectorAll('input[type="radio"]:checked').forEach(el => {
+                if(scores[el.value] !== undefined) scores[el.value]++;
+            });
+            // Multiplicador de 7 pontos conforme solicitado
+            return {
+                dominante: scores.D * 7,
+                influente: scores.I * 7,
+                estavel: scores.S * 7,
+                condescendente: scores.C * 7,
+                total: (scores.D + scores.I + scores.S + scores.C) * 7
+            };
+        }
+
+        async function submitForm() {
+            const btn = document.getElementById('submitBtn');
+            const loader = document.getElementById('loadingMsg');
+            const form = document.getElementById('recruitmentForm');
+
+            if(!form.checkValidity()) { alert("Preencha as considerações finais."); return; }
+
+            btn.disabled = true;
+            loader.classList.remove('hidden');
+
+            const scores = calculateDISC();
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            // Adicionando resultados DISC e metadados
+            Object.assign(data, {
+                ...scores,
+                resultado_resumido: `D:${scores.dominante} I:${scores.influente} S:${scores.estavel} C:${scores.condescendente}`,
+                timestamp: new Date().toISOString(),
+                perfil_predominante: Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b).toUpperCase()
+            });
+
+            // WEBHOOK DE PRODUÇÃO ATUALIZADO
+            const webhookUrl = "https://automacao.taimeagencia.com.br/webhook/c8db1289-31b3-443f-8519-fcb4f4a95971";
+
+            try {
+                let success = false;
+                for(let i=0; i<5; i++){
+                    try {
+                        const res = await fetch(webhookUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(data)
+                        });
+                        if(res.ok) { success = true; break; }
+                    } catch(e){}
+                    await new Promise(r => setTimeout(r, Math.pow(2, i)*1000));
+                }
+
+                if(success || webhookUrl.includes("webhook-test")) {
+                    showSuccess(scores);
+                } else {
+                    alert("Erro ao enviar. Tente novamente.");
+                    btn.disabled = false;
+                    loader.classList.add('hidden');
+                }
+            } catch(e) {
+                btn.disabled = false;
+                loader.classList.add('hidden');
+                alert("Erro de conexão.");
+            }
+        }
+
+        function showSuccess(scores) {
+            document.getElementById('recruitmentForm').classList.add('hidden');
+            document.getElementById('successScreen').classList.remove('hidden');
+            document.querySelector('.bg-indigo-700').classList.replace('bg-indigo-700', 'bg-green-600');
+            
+            const bars = document.getElementById('discBars');
+            const colors = { dominante: 'bg-red-500', influente: 'bg-yellow-500', estavel: 'bg-green-500', condescendente: 'bg-blue-500' };
+            const labels = { dominante: 'Dominante (D)', influente: 'Influente (I)', estavel: 'Estável (S)', condescendente: 'Conforme (C)' };
+
+            let maxVal = Math.max(scores.dominante, scores.influente, scores.estavel, scores.condescendente);
+            let predominanteKey = Object.keys(scores).find(k => scores[k] === maxVal);
+
+            Object.keys(labels).forEach(key => {
+                const pct = (scores[key] / scores.total) * 100 || 0;
+                bars.innerHTML += `
+                    <div>
+                        <div class="flex justify-between text-[10px] font-bold mb-2 text-slate-500 uppercase">
+                            <span>${labels[key]}</span>
+                            <span>${scores[key]} pts</span>
+                        </div>
+                        <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden shadow-inner">
+                            <div class="${colors[key]} h-full transition-all duration-1000" style="width: ${pct}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Ficha técnica dinâmica
+            const profileMap = { dominante: 'D', influente: 'I', estavel: 'S', condescendente: 'C' };
+            const pCode = profileMap[predominanteKey];
+            const ficha = fichasTecnicas[pCode];
+            
+            document.getElementById('perfilDesc').innerHTML = `
+                <p class="font-bold text-lg text-indigo-900">${ficha.titulo}</p>
+                <p class="italic text-indigo-600 mb-2">${ficha.resumo}</p>
+                <p>${ficha.detalhes}</p>
+                <hr class="my-4 border-indigo-200">
+                <p class="text-[10px] uppercase font-bold text-indigo-400">Análise gerada em tempo real para Táime Pro</p>
+            `;
+        }
+
+        window.onload = () => {
+            renderForm();
+            updateStep();
+        };
+    </script>
+</body>
+</html>
